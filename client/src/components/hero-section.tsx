@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Gamepad2, ChevronDown } from "lucide-react";
 import { FaDiscord } from "react-icons/fa";
 import { fadeInUp, scaleIn, pulseGlow } from "@/lib/animations";
+import logoPath from "@assets/logo_1749396365843.png";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -18,7 +19,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
             className="w-auto h-32 mx-auto flex items-center justify-center mb-6"
           >
             <img 
-              src="@assets/logo_1749396365843.png" 
+              src={logoPath} 
               alt="MineTerru Logo" 
               className="h-24 w-auto"
             />

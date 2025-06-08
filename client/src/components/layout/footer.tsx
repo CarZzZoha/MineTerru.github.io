@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Gamepad2 } from "lucide-react";
 import { FaDiscord, FaYoutube, FaTelegram } from "react-icons/fa";
+import logoPath from "@assets/logo_1749396365843.png";
 
 export function Footer() {
   return (
@@ -10,7 +11,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="@assets/logo_1749396365843.png" 
+                src={logoPath} 
                 alt="MineTerru Logo" 
                 className="h-8 w-auto"
               />

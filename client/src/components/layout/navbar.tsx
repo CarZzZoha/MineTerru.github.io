@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { Moon, Sun, Menu, X, Gamepad2 } from "lucide-react";
 import { motion } from "framer-motion";
+import logoPath from "@assets/logo_1749396365843.png";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -30,7 +31,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <img 
-              src="@assets/logo_1749396365843.png" 
+              src={logoPath} 
               alt="MineTerru Logo" 
               className="h-8 w-auto"
             />
