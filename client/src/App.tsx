@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { FloatingElements } from "@/components/floating-elements";
 
 import Home from "@/pages/home";
 import ServerInfo from "@/pages/server-info";
@@ -32,7 +31,6 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
-            <FloatingElements />
             <Navbar />
             <main className="relative z-10">
               <Router />
