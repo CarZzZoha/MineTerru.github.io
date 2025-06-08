@@ -14,16 +14,13 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
     <section className="relative min-h-screen flex items-center justify-center gradient-bg overflow-hidden">
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
         <motion.div {...scaleIn} className="mb-8">
-          <motion.div 
-            {...pulseGlow}
-            className="w-auto h-32 mx-auto flex items-center justify-center mb-6"
-          >
+          <div className="w-auto h-32 mx-auto flex items-center justify-center mb-6">
             <img 
               src={logoPath} 
               alt="MineTerru Logo" 
-              className="h-24 w-auto"
+              className="h-32 w-auto"
             />
-          </motion.div>
+          </div>
         </motion.div>
         
         <motion.h1 

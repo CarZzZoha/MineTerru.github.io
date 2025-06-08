@@ -33,7 +33,7 @@ export function Navbar() {
             <img 
               src={logoPath} 
               alt="MineTerru Logo" 
-              className="h-8 w-auto"
+              className="h-12 w-auto"
             />
           </Link>
 
