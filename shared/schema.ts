@@ -7,8 +7,8 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   discordId: text("discord_id"),
-  isActive: boolean("is_active").default(true),
-  joinedAt: timestamp("joined_at").defaultNow(),
+  isActive: boolean("is_active").default(true).notNull(),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
 });
 
 export const serverStats = pgTable("server_stats", {
@@ -17,7 +17,7 @@ export const serverStats = pgTable("server_stats", {
   maxPlayers: integer("max_players").notNull(),
   uptime: text("uptime").notNull(),
   version: text("version").notNull(),
-  lastUpdated: timestamp("last_updated").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
 });
 
 export const downloads = pgTable("downloads", {
@@ -27,8 +27,8 @@ export const downloads = pgTable("downloads", {
   downloadUrl: text("download_url").notNull(),
   version: text("version").notNull(),
   fileSize: text("file_size"),
-  downloadCount: integer("download_count").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
+  downloadCount: integer("download_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
