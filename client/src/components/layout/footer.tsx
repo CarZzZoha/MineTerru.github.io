@@ -9,12 +9,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[hsl(187,85%,53%)] to-[hsl(199,89%,48%)] rounded-lg flex items-center justify-center">
-                <Gamepad2 className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gradient">
-                MineTerru
-              </span>
+              <img 
+                src="@assets/logo_1749396365843.png" 
+                alt="MineTerru Logo" 
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-muted-foreground mb-6 max-w-md">
               Уникальный приватный сервер Minecraft с дружелюбным сообществом и интересными модами.

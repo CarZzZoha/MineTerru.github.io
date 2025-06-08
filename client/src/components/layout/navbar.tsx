@@ -29,12 +29,11 @@ export function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[hsl(187,85%,53%)] to-[hsl(199,89%,48%)] rounded-lg flex items-center justify-center">
-              <Gamepad2 className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gradient">
-              MineTerru
-            </span>
+            <img 
+              src="@assets/logo_1749396365843.png" 
+              alt="MineTerru Logo" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

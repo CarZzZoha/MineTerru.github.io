@@ -15,9 +15,13 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
         <motion.div {...scaleIn} className="mb-8">
           <motion.div 
             {...pulseGlow}
-            className="w-32 h-32 mx-auto bg-gradient-to-br from-[hsl(187,85%,53%)] to-[hsl(199,89%,48%)] rounded-2xl flex items-center justify-center mb-6"
+            className="w-auto h-32 mx-auto flex items-center justify-center mb-6"
           >
-            <Gamepad2 className="w-16 h-16 text-white" />
+            <img 
+              src="@assets/logo_1749396365843.png" 
+              alt="MineTerru Logo" 
+              className="h-24 w-auto"
+            />
           </motion.div>
         </motion.div>
         
