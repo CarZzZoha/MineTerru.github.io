@@ -1,6 +1,6 @@
 import { users, serverStats, downloads, type User, type InsertUser, type ServerStats, type InsertServerStats, type Download, type InsertDownload } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -58,10 +58,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async incrementDownloadCount(id: number): Promise<void> {
-    await db
-      .update(downloads)
-      .set({ downloadCount: downloads.downloadCount + 1 })
-      .where(eq(downloads.id, id));
+    const [download] = await db.select().from(downloads).where(eq(downloads.id, id));
+    if (download) {
+      await db
+        .update(downloads)
+        .set({ downloadCount: download.downloadCount + 1 })
+        .where(eq(downloads.id, id));
+    }
   }
 }
 

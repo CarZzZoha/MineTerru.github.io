@@ -3,29 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Shield, Settings, Check, Cpu, HardDrive, MemoryStick, Monitor } from "lucide-react";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
-
-const downloads = [
-  {
-    title: "MineTerru Modpack",
-    description: "Полная сборка модов для сервера MineTerru версии 1.20.1",
-    icon: Download,
-    details: {
-      size: "2.3 GB",
-      version: "v1.5.2",
-      minecraft: "1.20.1"
-    }
-  },
-  {
-    title: "Launcher",
-    description: "Специальный лаунчер для автоматической установки и обновления",
-    icon: Settings,
-    details: {
-      size: "45 MB", 
-      version: "v2.1.0",
-      system: "Windows/Linux"
-    }
-  }
-];
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import type { Download as DownloadType } from "@shared/schema";
 
 const tools = [
   {
@@ -67,6 +47,27 @@ const installSteps = [
 ];
 
 export default function Modpack() {
+  const queryClient = useQueryClient();
+  
+  const { data: downloads = [], isLoading } = useQuery<DownloadType[]>({
+    queryKey: ["/api/downloads"],
+  });
+
+  const incrementDownloadMutation = useMutation({
+    mutationFn: (downloadId: number) =>
+      apiRequest(`/api/downloads/${downloadId}/increment`, {
+        method: "POST",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/downloads"] });
+    },
+  });
+
+  const handleDownload = (downloadId: number, downloadUrl: string) => {
+    incrementDownloadMutation.mutate(downloadId);
+    window.open(downloadUrl, '_blank');
+  };
+
   return (
     <div className="pt-16">
       <section className="py-20 gradient-bg">
@@ -105,35 +106,46 @@ export default function Modpack() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid lg:grid-cols-2 gap-8">
-                  {downloads.map((download, index) => (
-                    <motion.div
-                      key={index}
-                      variants={fadeInUp}
-                      transition={{ delay: index * 0.2 }}
-                      className="text-center"
-                    >
-                      <div className="bg-secondary/50 p-8 rounded-xl mb-6 border border-border/50 hover:border-[hsl(187,85%,53%)]/40 transition-colors">
-                        <download.icon className="w-12 h-12 text-[hsl(187,85%,53%)] mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold mb-4 text-foreground">{download.title}</h3>
-                        <p className="text-muted-foreground mb-6">{download.description}</p>
-                        <div className="space-y-2 text-sm text-muted-foreground mb-6">
-                          <div>Размер: <span className="text-[hsl(187,85%,53%)]">{download.details.size}</span></div>
-                          <div>Версия: <span className="text-[hsl(187,85%,53%)]">{download.details.version}</span></div>
-                          <div>
-                            {download.details.minecraft ? 'Minecraft:' : 'Система:'} 
-                            <span className="text-[hsl(187,85%,53%)] ml-1">
-                              {download.details.minecraft || download.details.system}
-                            </span>
+                {isLoading ? (
+                  <div className="text-center py-8">
+                    <div className="text-muted-foreground">Загрузка файлов...</div>
+                  </div>
+                ) : downloads.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-muted-foreground">Файлы для скачивания скоро появятся</div>
+                  </div>
+                ) : (
+                  <div className="grid lg:grid-cols-2 gap-8">
+                    {downloads.map((download, index) => (
+                      <motion.div
+                        key={download.id}
+                        variants={fadeInUp}
+                        transition={{ delay: index * 0.2 }}
+                        className="text-center"
+                      >
+                        <div className="bg-secondary/50 p-8 rounded-xl mb-6 border border-border/50 hover:border-[hsl(187,85%,53%)]/40 transition-colors">
+                          <Download className="w-12 h-12 text-[hsl(187,85%,53%)] mx-auto mb-4" />
+                          <h3 className="text-xl font-semibold mb-4 text-foreground">{download.name}</h3>
+                          <p className="text-muted-foreground mb-6">{download.description}</p>
+                          <div className="space-y-2 text-sm text-muted-foreground mb-6">
+                            {download.fileSize && (
+                              <div>Размер: <span className="text-[hsl(187,85%,53%)]">{download.fileSize}</span></div>
+                            )}
+                            <div>Версия: <span className="text-[hsl(187,85%,53%)]">{download.version}</span></div>
+                            <div>Скачиваний: <span className="text-[hsl(187,85%,53%)]">{download.downloadCount}</span></div>
                           </div>
+                          <Button 
+                            className="bg-gradient-to-r from-[hsl(187,85%,53%)] to-[hsl(199,89%,48%)] hover:from-[hsl(185,96%,67%)] hover:to-[hsl(217,91%,60%)] text-white"
+                            onClick={() => handleDownload(download.id, download.downloadUrl)}
+                            disabled={incrementDownloadMutation.isPending}
+                          >
+                            Скачать {download.name}
+                          </Button>
                         </div>
-                        <Button className="bg-gradient-to-r from-[hsl(187,85%,53%)] to-[hsl(199,89%,48%)] hover:from-[hsl(185,96%,67%)] hover:to-[hsl(217,91%,60%)] text-white">
-                          Скачать {download.title}
-                        </Button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>
